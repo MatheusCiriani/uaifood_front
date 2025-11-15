@@ -2,54 +2,55 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import './Navbar.css'; // <-- 1. IMPORTE O CSS
 
 function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
   const { totalItemsInCart } = useCart();
   const navigate = useNavigate();
- 
-  console.log('NAVBAR ATUALIZOU. Total de itens:', totalItemsInCart);
 
   const handleLogout = () => {
     logout();
-    navigate('/'); // Após o logout, volta para a home pública
+    navigate('/');
   };
 
+  // 2. REMOVA OS 'style' E USE 'className'
   return (
-    <nav style={{ background: '#f0f0f0', padding: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+    <nav className="navbar">
       
-      {/* Links da Esquerda (Públicos ou Protegidos) */}
-      <div>
-        <Link to="/" style={{ marginRight: '1rem' }}>
-            Cardápio (Home)
+      {/* Links da Esquerda */}
+      <div className="navbar-links-left">
+        <Link to="/" className="navbar-brand">
+          UaiFood
         </Link>
+        <Link to="/">Cardápio</Link>
         
-        {/* Este link só aparece se o usuário estiver logado */}
         {isAuthenticated && (
-          <Link to="/meus-pedidos">
-            Meus Pedidos
-          </Link>
+          <Link to="/meus-pedidos">Meus Pedidos</Link>
         )}
+        
         <Link to="/carrinho">
           Carrinho ({totalItemsInCart})
         </Link>
+
+        {user?.type === 'ADMIN' && (
+          <Link to="/admin/dashboard" style={{ color: 'red', fontWeight: 'bold' }}>
+            PAINEL ADMIN
+          </Link>
+        )}
       </div>
 
-      {/* Links da Direita (Login/Logout) */}
-      <div>
+      {/* Links da Direita */}
+      <div className="navbar-links-right">
         {isAuthenticated ? (
           <>
-            <span style={{ marginRight: '1rem' }}>Olá, {user?.name}</span>
+            <span>Olá, {user?.name}</span>
             <button onClick={handleLogout}>Sair</button>
           </>
         ) : (
           <>
-            <Link to="/login" style={{ marginRight: '1rem' }}>
-              Login
-            </Link>
-            <Link to="/register">
-              Registrar
-            </Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Registrar</Link>
           </>
         )}
       </div>

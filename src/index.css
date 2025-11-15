@@ -1,0 +1,60 @@
+/* src/index.css */
+
+/* 1. Definição das nossas novas cores (baseadas na imagem) */
+:root {
+  --color-primary-dark: #3a5a5a; /* Verde/Teal Escuro */
+  --color-text-light: #F5EFE6;   /* Creme/Bege Claro */
+  --color-accent: #5a8a8a;      /* Tom médio para botões/links */
+  --color-background: #f7f7f7;  /* Um cinza bem claro para o fundo */
+  --color-text-dark: #333333;   /* Texto escuro padrão */
+}
+
+/* 2. Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 3. Estilos do Body (fonte e cores globais) */
+body {
+  font-family: 'Poppins', 'Helvetica', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
+}
+
+/* 4. Estilos de Botões Globais */
+button {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--color-accent);
+  color: var(--color-text-light);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* 5. Estilos de Formulário Globais (para Login, Registro, etc.) */
+input, select {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+form div {
+  margin-bottom: 10px;
+}

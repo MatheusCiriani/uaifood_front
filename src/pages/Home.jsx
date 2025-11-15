@@ -1,25 +1,27 @@
 // src/pages/Home.jsx
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-import { useCart } from '../context/CartContext'; // <-- 1. IMPORTE O USECART
+import { useCart } from '../context/CartContext';
+import './Home.css'; // <-- 1. IMPORTE O CSS
 
 function Home() {
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  const { addToCart } = useCart(); // <-- 2. PEGUE A FUNÇÃO 'addToCart'
+  const { addToCart } = useCart();
 
   useEffect(() => {
     async function loadData() {
       try {
         setLoading(true);
         setError('');
-        const responseCategories = await api.get('/categories');
-        setCategories(responseCategories.data);
-        const responseItems = await api.get('/items');
-        setItems(responseItems.data);
+        const [categoriesResponse, itemsResponse] = await Promise.all([
+          api.get('/categories'),
+          api.get('/items')
+        ]);
+        setCategories(categoriesResponse.data);
+        setItems(itemsResponse.data);
       } catch (err) {
         setError('Falha ao carregar o cardápio.');
         console.error(err);
@@ -33,40 +35,32 @@ function Home() {
   if (loading) return <div><h2>Carregando cardápio...</h2></div>;
   if (error) return <div><h2 style={{ color: 'red' }}>{error}</h2></div>;
 
+  // 2. REMOVA 'style' E USE 'className'
   return (
-    <div>
+    <div className="home-container">
       <h2>Cardápio UaiFood</h2>
       <p>Qualquer um, logado ou não, pode ver isso!</p>
       
-      <hr />
+      <hr style={{ margin: '1rem 0' }} />
 
       {/* Seção de Categorias */}
       <h3>Categorias</h3>
-      <ul>
+      <ul className="category-list">
         {categories.map(category => (
           <li key={category.id}>{category.description}</li>
         ))}
       </ul>
 
-      <hr />
+      {/* Seção de Itens */}
       <h3>Itens Disponíveis</h3>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div className="item-list">
         {items.map(item => (
-          <div 
-            key={item.id} 
-            style={{ 
-              border: '1px solid #ccc', 
-              padding: '10px', 
-              margin: '10px', 
-              width: '200px' 
-            }}
-          >
+          <div key={item.id} className="item-card">
             <h4>{item.description}</h4>
-            <p>Preço: R$ {item.unitPrice.toFixed(2)}</p>
+            <p>R$ {item.unitPrice.toFixed(2)}</p>
             <small>Categoria: {item.category.description}</small>
             
-            {/* 3. ADICIONE O BOTÃO */}
-            <button onClick={() =>{addToCart(item)}} style={{ marginTop: '10px' }}>
+            <button onClick={() => addToCart(item)}>
               Adicionar ao Carrinho
             </button>
           </div>

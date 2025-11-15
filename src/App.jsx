@@ -11,6 +11,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MeusPedidos from './pages/MeusPedidos';
 import Carrinho from './pages/Carrinho';
+import AdminRoute from './routes/AdminRoute';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminManageOrders from './pages/AdminManageOrders';
+import AdminManageItems from './pages/AdminManageItems';
+
+
 
 function App() {
   return (
@@ -31,6 +37,11 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/meus-pedidos" element={<MeusPedidos />} />
           {/* Futuramente: <Route path="/checkout" element={<Checkout />} /> */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/pedidos" element={<AdminManageOrders />} />
+            <Route path="/admin/itens" element={<AdminManageItems />} />
+          </Route>
         </Route>
 
         {/* Rota 404 */}
