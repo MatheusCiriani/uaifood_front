@@ -2,7 +2,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import './Navbar.css'; // <-- 1. IMPORTE O CSS
+import './Navbar.css';
 
 function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -14,7 +14,6 @@ function Navbar() {
     navigate('/');
   };
 
-  // 2. REMOVA OS 'style' E USE 'className'
   return (
     <nav className="navbar">
       
@@ -23,7 +22,9 @@ function Navbar() {
         <Link to="/" className="navbar-brand">
           UaiFood
         </Link>
-        <Link to="/">Cardápio</Link>
+        
+        {/* MUDANÇA AQUI (para /cardapio) */}
+        <Link to="/cardapio">Cardápio</Link> 
         
         {isAuthenticated && (
           <Link to="/meus-pedidos">Meus Pedidos</Link>

@@ -1,10 +1,10 @@
-// src/pages/Home.jsx
+// src/pages/Cardapio.jsx
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import { useCart } from '../context/CartContext';
-import './Home.css'; // <-- 1. IMPORTE O CSS
+import './Cardapio.css'; // <-- MUDANÇA (importa o CSS renomeado)
 
-function Home() {
+function Cardapio() { // <-- MUDANÇA (nome do componente)
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,9 +35,9 @@ function Home() {
   if (loading) return <div><h2>Carregando cardápio...</h2></div>;
   if (error) return <div><h2 style={{ color: 'red' }}>{error}</h2></div>;
 
-  // 2. REMOVA 'style' E USE 'className'
   return (
-    <div className="home-container">
+    // <-- MUDANÇA (className)
+    <div className="cardapio-container"> 
       <h2>Cardápio UaiFood</h2>
       <p>Qualquer um, logado ou não, pode ver isso!</p>
       
@@ -70,4 +70,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Cardapio; // <-- MUDANÇA (export)
