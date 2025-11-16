@@ -1,0 +1,126 @@
+/* src/pages/Carrinho.css */
+
+/* O container principal da página */
+.cart-container {
+  max-width: 600px; /* Um pouco mais largo que o form de login */
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* O título principal */
+.cart-title {
+  color: var(--color-primary-dark);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* Mensagem de carrinho vazio */
+.cart-empty {
+  text-align: center;
+}
+.cart-empty p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+/* Link para voltar ao cardápio */
+.cart-empty a {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cart-empty a:hover {
+  text-decoration: underline;
+}
+
+/* O card de cada item no carrinho */
+.cart-item-card {
+  background: #fdfdfd;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item-info {
+  flex-grow: 1;
+}
+
+.cart-item-info h4 {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+.cart-item-info p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Os botões de + e - */
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+}
+.cart-item-quantity span {
+  margin: 0 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-width: 20px;
+  text-align: center;
+}
+/* Botões pequenos de + e - */
+.cart-item-quantity button {
+  padding: 4px 10px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Seção do Resumo do Pedido */
+.cart-summary {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #eee;
+}
+
+.cart-summary h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+.cart-summary p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+.cart-summary h4 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Botão principal de finalizar */
+.checkout-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Erro da API */
+.cart-error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}

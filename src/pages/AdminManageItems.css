@@ -1,0 +1,58 @@
+/* src/styles/AdminManageItems.css */
+
+/* Container para a lista de itens */
+.item-list-container {
+  max-width: 450px; /* Mesma largura do formulário */
+  margin: 2rem auto;  /* Centraliza */
+}
+
+.item-list-title {
+  font-size: 1.5rem;
+  color: var(--color-primary-dark);
+  margin-bottom: 1rem;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Estilo para cada item na lista do admin */
+.admin-item-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-item-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.admin-item-info small {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.admin-item-actions button {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  margin-left: 5px;
+}
+
+/* Botão de deletar */
+.admin-item-actions .delete-btn {
+  background-color: #c0392b; /* Vermelho */
+  border: none;
+}
+.admin-item-actions .delete-btn:hover {
+  background-color: #a03024;
+}

@@ -1,0 +1,75 @@
+/* src/styles/Form.css */
+
+/* O "cartão" que envolve o formulário */
+.form-container {
+  /* Define uma largura máxima para o form */
+  max-width: 450px; 
+  
+  /* Centraliza o "cartão" na página */
+  margin: 2rem auto; 
+  
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* O título (ex: "Login - UaiFood") */
+.form-title {
+  text-align: center;
+  color: var(--color-primary-dark); /* Cor bordô */
+  margin-bottom: 1.5rem;
+}
+
+/* --- ADIÇÃO AQUI --- */
+/* Estilo para o logo no topo dos formulários */
+.form-logo {
+  display: block; /* Para poder centralizar com 'margin' */
+  width: 200px;   /* <-- Imagem menor, como solicitado */
+  height: auto;
+  margin: 0 auto 1.5rem auto; /* Centraliza horizontalmente e dá espaço abaixo */
+}
+/* --- FIM DA ADIÇÃO --- */
+
+/* Um subtítulo (ex: "Seus Dados", "Endereço") */
+.form-subtitle {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  color: var(--color-accent); /* Bordô mais claro */
+}
+
+/* O "pacote" que agrupa a label e o input */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* A ETIQUETA (LABEL) - aqui está sua solicitação */
+.form-label {
+  display: block; /* Faz a label ficar acima do input */
+  font-size: 0.9rem; /* <-- Deixa a label menor */
+  font-weight: 600;
+  margin-bottom: 5px; /* Espaço entre a label e o input */
+  color: #333;
+}
+
+/* Os <input> e <button> já estão pegando os estilos
+  globais do seu 'index.css', o que é perfeito!
+*/
+
+/* Mensagens de erro ou sucesso */
+.form-error {
+  color: #c0392b; /* Vermelho escuro */
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.form-success {
+  color: #27ae60; /* Verde */
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}

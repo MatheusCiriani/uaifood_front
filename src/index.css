@@ -2,10 +2,10 @@
 
 /* 1. Definição das nossas novas cores (baseadas na imagem) */
 :root {
-  --color-primary-dark: #3a5a5a; /* Verde/Teal Escuro */
-  --color-text-light: #F5EFE6;   /* Creme/Bege Claro */
-  --color-accent: #5a8a8a;      /* Tom médio para botões/links */
-  --color-background: #f7f7f7;  /* Um cinza bem claro para o fundo */
+  --color-primary-dark: #9b4c46; /* Verde/Teal Escuro */
+  --color-text-light: #f3e4c3;   /* Creme/Bege Claro */
+  --color-accent: #8b4a4a;      /* Tom médio para botões/links */
+  --color-background: #f9f6f2;  /* Um cinza bem claro para o fundo */
   --color-text-dark: #333333;   /* Texto escuro padrão */
 }
 

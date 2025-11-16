@@ -6,9 +6,11 @@ function Layout() {
   return (
     <div>
       <Navbar />
-      <main style={{ padding: '1rem' }}>
-        {/* O <Outlet /> é o placeholder onde o React Router
-            vai renderizar a página da rota atual (ex: Home, Login, etc.) */}
+      {/* MUDANÇA AQUI: Removemos o padding da tag <main>.
+        Isso fará o conteúdo da página "colar" no Navbar, 
+        removendo a faixa branca.
+      */}
+      <main>
         <Outlet />
       </main>
     </div>

@@ -1,21 +1,42 @@
 /* src/components/Navbar.css */
 
+/* --- MUDANÇA: VOLTANDO PARA FLEXBOX --- */
 .navbar {
   background-color: var(--color-primary-dark);
   color: var(--color-text-light);
   padding: 1rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
+  display: flex; /* <-- De volta ao flex */
+  justify-content: space-between; /* <-- Para separar esquerda e direita */
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* --- REMOVIDO: .navbar-section não é mais necessário --- */
+
+/* --- MUDANÇA: 'navbar-links' voltam a ser os filhos diretos --- */
 .navbar-links-left,
 .navbar-links-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem; /* Espaçamento entre os links */
+  gap: 1.5rem; 
 }
+
+/* --- REMOVIDO: Classes do logo central (.navbar-center-logo, .navbar-brand-center) --- */
+
+
+/* --- Classes do ícone da esquerda (CORRETAS) --- */
+.navbar-icon-link {
+  height: 30px; 
+  width: auto;
+  display: flex;
+  align-items: center;
+}
+.navbar-icon-brand {
+  height: 100%;
+  width: auto;
+}
+/* --- FIM DAS CLASSES DO ÍCONE --- */
+
 
 .navbar a {
   color: var(--color-text-light);
@@ -23,13 +44,6 @@
   font-weight: 600;
   font-size: 0.9rem;
   transition: color 0.2s;
-}
-
-/* Link "UaiFood" principal */
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text-light) !important;
 }
 
 .navbar a:hover {
@@ -40,7 +54,6 @@
   font-size: 0.9rem;
 }
 
-/* Botão de Logout */
 .navbar button {
   background-color: var(--color-accent);
   font-size: 0.9rem;
@@ -50,4 +63,19 @@
 .navbar button:hover {
   background-color: var(--color-text-light);
   color: var(--color-primary-dark);
+}
+
+.navbar a.navbar-admin-link {
+  background-color: var(--color-text-light); 
+  color: var(--color-primary-dark); 
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+}
+.navbar a.navbar-admin-link:hover {
+  background-color: var(--color-primary-dark); 
+  color: var(--color-text-light); 
 }

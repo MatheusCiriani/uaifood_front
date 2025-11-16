@@ -1,14 +1,29 @@
 // src/context/CartContext.jsx
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react'; // <-- 1. Importa o 'useEffect'
 
 // 1. Cria o Contexto
 const CartContext = createContext();
 
 // 2. Cria o Provedor
 function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]); // Array dos itens no carrinho
+  
+  // 3. MUDA O USESTATE para ler o localStorage
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCart = localStorage.getItem('@UaiFood:cart');
+    if (storedCart) {
+      return JSON.parse(storedCart);
+    }
+    return []; // O padrão é um array vazio
+  });
+
+  // 4. ADICIONA O useEffect
+  // Este hook salva no localStorage CADA VEZ que 'cartItems' mudar
+  useEffect(() => {
+    localStorage.setItem('@UaiFood:cart', JSON.stringify(cartItems));
+  }, [cartItems]); // O 'gatilho' é o [cartItems]
 
   // --- Função para Adicionar ao Carrinho ---
+  // (Seu código original, está perfeito)
   function addToCart(itemToAdd) {
     setCartItems(prevItems => {
       // 1. O item já existe no carrinho?
@@ -29,6 +44,7 @@ function CartProvider({ children }) {
   }
 
   // --- Função para Remover do Carrinho ---
+  // (Seu código original, está perfeito)
   function removeFromCart(itemIdToRemove) {
     setCartItems(prevItems => {
       // 1. Encontra o item

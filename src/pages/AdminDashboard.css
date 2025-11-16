@@ -1,0 +1,54 @@
+/* src/pages/AdminDashboard.css */
+
+/* O container principal da página */
+.dashboard-container {
+  max-width: 900px; /* Define uma largura máxima */
+  margin: 2rem auto;  /* Centraliza na página */
+  padding: 1.5rem;
+}
+
+/* O título principal */
+.dashboard-title {
+  color: var(--color-primary-dark); /* Bordô escuro */
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 2rem;
+}
+
+/* A "grade" onde os botões de ferramenta ficarão */
+.dashboard-grid {
+  display: grid;
+  /* Cria colunas responsivas:
+    - Tenta criar colunas de no mínimo 250px.
+    - 'auto-fit' faz com que elas se ajustem
+    - '1fr' faz com que ocupem o espaço por igual
+  */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; /* Espaço entre os cartões */
+}
+
+/* O "Cartão" de ferramenta (que será um link) */
+.dashboard-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  
+  /* Centraliza o texto e o ícone (futuro) */
+  text-align: center;
+  text-decoration: none;
+  
+  color: var(--color-text-dark); /* Texto escuro */
+  font-size: 1.25rem;
+  font-weight: 600;
+  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efeito de "levantar" ao passar o mouse */
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  color: var(--color-accent); /* Bordô mais claro */
+}

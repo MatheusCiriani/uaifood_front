@@ -9,7 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { CartProvider } from './context/CartContext.jsx'; // <-- 1. IMPORTE
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  //<React.StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         {/* 2. ABRAÇO O APP COM O CARTPROVIDER */}
@@ -18,5 +18,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>
-  //</React.StrictMode>,
+  </React.StrictMode>,
 );

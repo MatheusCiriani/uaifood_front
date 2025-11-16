@@ -1,23 +1,34 @@
 // src/pages/AdminDashboard.jsx
 import { Link } from 'react-router-dom';
+import './AdminDashboard.css'; // <-- 1. IMPORTE O NOVO CSS
 
 function AdminDashboard() {
   return (
-    <div>
-      <h2>Painel do Administrador</h2>
-      <p>Bem-vindo, Admin!</p>
+    // 2. USE O CONTAINER PRINCIPAL
+    <div className="dashboard-container">
       
-      <nav>
-        <ul>
-          <li>
-            <Link to="/admin/pedidos">Gerenciar Pedidos</Link>
-          </li>
-          {/* 1. ADICIONE ESTE LINK */}
-          <li>
-            <Link to="/admin/itens">Gerenciar Itens do Cardápio</Link>
-          </li>
-        </ul>
-      </nav>
+      {/* 3. SUBSTITUA A NAV/UL PELA NOVA GRADE */}
+      <div className="dashboard-grid">
+        
+        {/* Cada link agora é um "Cartão" */}
+        <Link to="/admin/pedidos" className="dashboard-card">
+          Gerenciar Pedidos
+        </Link>
+        
+        <Link to="/admin/itens" className="dashboard-card">
+          Gerenciar Itens
+        </Link>
+        
+        {/* Você pode adicionar mais "ferramentas" aqui facilmente */}
+        {/* <Link to="/admin/categorias" className="dashboard-card">
+          Gerenciar Categorias
+        </Link>
+        <Link to="/admin/usuarios" className="dashboard-card">
+          Gerenciar Usuários
+        </Link>
+        */}
+
+      </div>
     </div>
   );
 }

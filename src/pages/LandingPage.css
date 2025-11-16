@@ -1,15 +1,17 @@
 /* src/pages/LandingPage.css */
 
 .landing-container {
-  /* O 'Layout.jsx' tem um padding, vamos removê-lo só nesta página */
-  margin: -1rem; /* Anula o padding do <main> no Layout.jsx */
+  /* --- MUDANÇA AQUI --- */
+  /* Removemos a margem negativa que não é mais necessária */
+  /* margin: -1rem; (REMOVIDO) */ 
+  /* --- FIM DA MUDANÇA --- */
 
   /* Calcula a altura total da tela MENOS a altura do navbar (aprox. 70px) */
   height: calc(100vh - 70px); 
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary-dark); /* Cor bordô escura */
   color: var(--color-text-light);
 
-  /* Centraliza tudo */
+  /* Centraliza tudo (sem mudança) */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,25 +19,10 @@
   text-align: center;
 }
 
-
-.landing-logo {
-  font-size: 8rem;
-  font-weight: 100;
-  margin-bottom: -1rem;
-}
-
-.landing-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 6rem;
-  font-weight: 700;
-}
-
-
-/* ADICIONE esta nova regra para o seu logo de imagem */
 .landing-brand-logo {
-  width: 450px; /* Ajuste este valor para o tamanho desejado */
-  height: auto; /* Mantém a proporção da imagem */
-  margin-bottom: 3rem; /* Espaçamento entre o logo e o botão */
+  width: 450px; 
+  height: auto; 
+  margin-bottom: 3rem; 
 }
 
 
@@ -47,12 +34,11 @@
   text-decoration: none;
   border-radius: 10px;
   font-weight: 600;
-  /* margin-top: 2rem; REMOVIDO, pois o margin-bottom do logo já faz o espaçamento */
   transition: all 0.3s;
 }
 
 .landing-button:hover {
   background-color: var(--color-accent);
-  color: var(--color-text-light);
+  color: var(--color-text-dark); 
   transform: scale(1.05);
 }

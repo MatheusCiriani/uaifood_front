@@ -1,0 +1,104 @@
+/* src/pages/MeusPedidos.css */
+
+/* O container principal da página */
+.pedidos-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+/* O título principal */
+.pedidos-title {
+  color: var(--color-primary-dark);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* O "card" de cada pedido individual */
+.pedido-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  /* Borda sutil de status */
+  border-left: 6px solid #eee; 
+}
+
+/* Classes de status (iguais as do admin) */
+.pedido-card.status-PENDING {
+  border-left-color: #f39c12; /* Laranja */
+  background-color: rgba(243, 156, 18, 0.05);
+}
+.pedido-card.status-COMPLETED {
+  border-left-color: #27ae60; /* Verde */
+  background-color: rgba(39, 174, 96, 0.05);
+}
+.pedido-card.status-CANCELLED {
+  border-left-color: #c0392b; /* Vermelho */
+  background-color: rgba(192, 57, 43, 0.05);
+}
+
+/* Cabeçalho do card (ID do pedido e Status) */
+.pedido-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pedido-card-header h4 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0;
+}
+
+/* A "tag" do status (igual a do admin) */
+.pedido-status {
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+.pedido-status.PENDING { background-color: #f39c12; }
+.pedido-status.COMPLETED { background-color: #27ae60; }
+.pedido-status.CANCELLED { background-color: #c0392b; }
+
+/* Corpo do card (infos e itens) */
+.pedido-card-body p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+.pedido-card-body h5 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.pedido-card-body ul { 
+  list-style: none; 
+  padding-left: 0; 
+}
+.pedido-card-body li {
+  font-size: 0.9rem;
+  padding-left: 10px;
+  border-left: 3px solid #eee;
+  margin-bottom: 5px;
+}
+
+/* Total do Pedido (dentro do card) */
+.pedido-card-total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  text-align: right;
+}

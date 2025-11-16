@@ -1,0 +1,121 @@
+/* src/pages/AdminManageOrders.css */
+
+/* O container principal da página (sem mudanças) */
+.order-list-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+/* O título principal (sem mudanças) */
+.order-list-title {
+  color: var(--color-primary-dark);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* O "card" de cada pedido individual */
+.admin-order-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+  
+  /* --- MUDANÇA AQUI --- */
+  /* Remove a borda padrão e adiciona uma mais grossa à esquerda */
+  border: none;
+  border-left: 6px solid #eee; 
+}
+
+.admin-order-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- NOVAS CLASSES DE STATUS (COMO VOCÊ PEDIU) --- */
+/* Esta é a parte sutil: fundo com 5% de opacidade e uma borda esquerda colorida */
+.admin-order-card.status-PENDING {
+  border-left-color: #f39c12; /* Laranja */
+  background-color: rgba(243, 156, 18, 0.05);
+}
+.admin-order-card.status-COMPLETED {
+  border-left-color: #27ae60; /* Verde */
+  background-color: rgba(39, 174, 96, 0.05);
+}
+.admin-order-card.status-CANCELLED {
+  border-left-color: #c0392b; /* Vermelho */
+  background-color: rgba(192, 57, 43, 0.05);
+}
+/* --- FIM DAS NOVAS CLASSES --- */
+
+
+/* Cabeçalho do card (sem mudanças) */
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+.order-card-header h4 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0;
+}
+
+/* A "tag" do status (sem mudanças, ela já é colorida e fica bem) */
+.order-status {
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+.order-status.PENDING { background-color: #f39c12; }
+.order-status.COMPLETED { background-color: #27ae60; }
+.order-status.CANCELLED { background-color: #c0392b; }
+
+/* Corpo do card (sem mudanças) */
+.order-card-body p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+.order-card-body h5 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.order-card-body ul { list-style: none; padding-left: 0; }
+.order-card-body li {
+  font-size: 0.9rem;
+  padding-left: 10px;
+  border-left: 3px solid #eee;
+  margin-bottom: 5px;
+}
+
+/* Ações do card (sem mudanças na estrutura) */
+.order-card-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.order-card-actions button {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  flex-grow: 1; 
+  /* Os botões agora usarão o estilo padrão do index.css */
+}
+
+/* --- REMOÇÃO AQUI --- */
+/* As classes .btn-complete, .btn-cancel, .btn-pending foram REMOVIDAS
+   para que o estilo padrão do site (bordô) seja aplicado.
+*/

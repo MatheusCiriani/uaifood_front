@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import './Navbar.css';
+// 1. IMPORTA APENAS O ÍCONE
+import logoIconUrl from '../assets/uaifood_icon.svg'; 
 
 function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -15,34 +17,37 @@ function Navbar() {
   };
 
   return (
+    // 2. O NAVBAR VOLTA A TER APENAS 2 SEÇÕES FILHAS
     <nav className="navbar">
       
-      {/* Links da Esquerda */}
+      {/* --- SEÇÃO 1: LINKS DA ESQUERDA --- */}
       <div className="navbar-links-left">
-        <Link to="/" className="navbar-brand">
-          UaiFood
+        {/* O Ícone é o primeiro link */}
+        <Link to="/" className="navbar-icon-link">
+          <img src={logoIconUrl} alt="UaiFood Icon" className="navbar-icon-brand" />
         </Link>
         
-        {/* MUDANÇA AQUI (para /cardapio) */}
         <Link to="/cardapio">Cardápio</Link> 
         
-        {isAuthenticated && (
+        {isAuthenticated && user.type === 'CLIENT' && (
           <Link to="/meus-pedidos">Meus Pedidos</Link>
         )}
         
-        <Link to="/carrinho">
-          Carrinho ({totalItemsInCart})
-        </Link>
-
         {user?.type === 'ADMIN' && (
-          <Link to="/admin/dashboard" style={{ color: 'red', fontWeight: 'bold' }}>
-            PAINEL ADMIN
+          <Link to="/admin/dashboard" className="navbar-admin-link">
+            Painel Admin
           </Link>
         )}
       </div>
 
-      {/* Links da Direita */}
+      {/* --- SEÇÃO 2: LINKS DA DIREITA --- */}
       <div className="navbar-links-right">
+        {user?.type !== 'ADMIN' && (
+          <Link to="/carrinho">
+            Carrinho ({totalItemsInCart})
+          </Link>
+        )}
+        
         {isAuthenticated ? (
           <>
             <span>Olá, {user?.name}</span>
