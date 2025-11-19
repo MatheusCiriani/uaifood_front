@@ -1,21 +1,22 @@
 // src/pages/AdminManageOrders.jsx
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-import './AdminManageOrders.css'; // Importa o CSS da mesma pasta
+import './AdminManageOrders.css';
+import { toast } from 'react-toastify'; // <-- 1. IMPORTE
 
 function AdminManageOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // Erro de carregamento inicial
 
-  // (fetchAAllOrders - sem mudança)
   const fetchAllOrders = async () => {
     try {
       setLoading(true);
       const response = await api.get('/orders');
       setOrders(response.data);
     } catch (err) {
-      setError('Erro ao carregar os pedidos.');
+      // Toast para erro de carregamento
+      toast.error('Erro ao carregar a lista de pedidos.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -26,25 +27,31 @@ function AdminManageOrders() {
     fetchAllOrders();
   }, []);
 
-  // (handleUpdateStatus - sem mudança)
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
       await api.put(`/orders/${orderId}`, {
         status: newStatus,
       });
+      
       setOrders(prevOrders =>
         prevOrders.map(order =>
           order.id === orderId ? { ...order, status: newStatus } : order
         )
       );
+      
+      // 2. FEEDBACK DE SUCESSO
+      toast.success(`Pedido #${orderId} atualizado para ${newStatus}!`);
+
     } catch (err) {
-      alert('Erro ao atualizar o status do pedido.');
+      // 3. FEEDBACK DE ERRO
+      toast.error('Erro ao atualizar o status do pedido.');
       console.error(err);
     }
   };
 
   if (loading) return <h2>Carregando todos os pedidos...</h2>;
-  if (error) return <h2 style={{ color: 'red' }}>{error}</h2>;
+  // Se der erro crítico no load, mostra na tela, mas o toast já avisou também
+  if (error) return <h2 style={{ color: 'red' }}>Erro ao carregar pedidos.</h2>;
 
   return (
     <div className="order-list-container">
@@ -55,14 +62,8 @@ function AdminManageOrders() {
       ) : (
         <div className="order-list">
           {orders.map(order => (
-            // --- 1. MUDANÇA AQUI ---
-            // Adiciona a classe de status dinâmica ao card
-            <div 
-              key={order.id} 
-              className={`admin-order-card status-${order.status}`}
-            >
+            <div key={order.id} className={`admin-order-card status-${order.status}`}>
               
-              {/* Cabeçalho do Card (com a tag de status) */}
               <div className="order-card-header">
                 <h4>Pedido #{order.id}</h4>
                 <span className={`order-status ${order.status}`}>
@@ -70,7 +71,6 @@ function AdminManageOrders() {
                 </span>
               </div>
               
-              {/* Corpo do Card (infos do cliente e itens) */}
               <div className="order-card-body">
                 <p><strong>Cliente:</strong> {order.client.name}</p>
                 <p><strong>Feito em:</strong> {new Date(order.createdAt).toLocaleString('pt-BR')}</p>
@@ -86,27 +86,22 @@ function AdminManageOrders() {
                 </ul>
               </div>
               
-              {/* --- 2. MUDANÇA AQUI --- */}
-              {/* Remove as classes 'btn-*' dos botões */}
               <div className="order-card-actions">
                 <button 
                   onClick={() => handleUpdateStatus(order.id, 'PENDING')}
                   disabled={order.status === 'PENDING'}
-                  // className="btn-pending" (REMOVIDO)
                 >
                   Marcar Pendente
                 </button>
                 <button 
                   onClick={() => handleUpdateStatus(order.id, 'COMPLETED')}
                   disabled={order.status === 'COMPLETED'}
-                  // className="btn-complete" (REMOVIDO)
                 >
                   Marcar Concluído
                 </button>
                 <button 
                   onClick={() => handleUpdateStatus(order.id, 'CANCELLED')}
                   disabled={order.status === 'CANCELLED'}
-                  // className="btn-cancel" (REMOVIDO)
                 >
                   Marcar Cancelado
                 </button>

@@ -1,0 +1,48 @@
+/* src/styles/AdminManageCategories.css */
+
+/* Container da lista (igual ao de itens) */
+.category-list-container {
+  max-width: 450px;
+  margin: 2rem auto;
+}
+
+.category-list-title {
+  font-size: 1.5rem;
+  color: var(--color-primary-dark);
+  margin-bottom: 1rem;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Card de cada categoria */
+.admin-category-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between; /* Texto na esquerda, botões na direita */
+  align-items: center;
+}
+
+.admin-category-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.admin-category-actions button {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  margin-left: 5px;
+}
+
+.admin-category-actions .delete-btn {
+  background-color: #c0392b;
+  border: none;
+}
+.admin-category-actions .delete-btn:hover {
+  background-color: #a03024;
+}

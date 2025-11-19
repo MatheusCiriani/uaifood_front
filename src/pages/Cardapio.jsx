@@ -4,7 +4,7 @@ import api from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import './Cardapio.css'; 
-import logoUrl from '../assets/uaifood_lg.svg'; // <-- 1. IMPORTE O LOGO
+import logoUrl from '../assets/uaifood_lg.svg'; 
 
 function Cardapio() {
   const [categories, setCategories] = useState([]);
@@ -53,7 +53,6 @@ function Cardapio() {
       {/* Seção de Destaque */}
       <section className="featured-section">
         
-        {/* --- 2. SUBSTITUIÇÃO DO H2 PELA IMAGEM --- */}
         <img 
           src={logoUrl} 
           alt="Destaques UaiFood" 
@@ -63,9 +62,25 @@ function Cardapio() {
         <div className="featured-list">
           {featuredItems.map(item => (
             <div key={item.id} className="item-card">
-              <h4>{item.description}</h4>
-              <p>R$ {item.unitPrice.toFixed(2)}</p>
-              <small>Categoria: {item.category.description}</small>
+              
+              {/* --- IMAGEM DO ITEM (Destaque) --- */}
+              {item.image ? (
+                <img 
+                  src={`http://localhost:3000/uploads/${item.image}`} 
+                  alt={item.description} 
+                  className="item-card-image"
+                />
+              ) : (
+                <div className="item-card-image placeholder">
+                  Sem Foto
+                </div>
+              )}
+
+              <div className="item-card-content">
+                <h4>{item.description}</h4>
+                <p>R$ {item.unitPrice.toFixed(2)}</p>
+                <small>Categoria: {item.category.description}</small>
+              </div>
               
               {user?.type !== 'ADMIN' && (
                 <button onClick={() => addToCart(item)}>
@@ -103,9 +118,25 @@ function Cardapio() {
         
         {filteredItems.map(item => (
           <div key={item.id} className="item-card">
-            <h4>{item.description}</h4>
-            <p>R$ {item.unitPrice.toFixed(2)}</p>
-            <small>Categoria: {item.category.description}</small>
+            
+            {/* --- IMAGEM DO ITEM (Lista Principal) --- */}
+            {item.image ? (
+              <img 
+                src={`http://localhost:3000/uploads/${item.image}`} 
+                alt={item.description} 
+                className="item-card-image"
+              />
+            ) : (
+              <div className="item-card-image placeholder">
+                Sem Foto
+              </div>
+            )}
+
+            <div className="item-card-content">
+              <h4>{item.description}</h4>
+              <p>R$ {item.unitPrice.toFixed(2)}</p>
+              <small>Categoria: {item.category.description}</small>
+            </div>
             
             {user?.type !== 'ADMIN' && (
               <button onClick={() => addToCart(item)}>

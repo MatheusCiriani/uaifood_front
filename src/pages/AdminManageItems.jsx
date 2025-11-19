@@ -1,23 +1,23 @@
 // src/pages/AdminManageItems.jsx
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-// 1. IMPORTE OS DOIS ARQUIVOS CSS
 import '../styles/Form.css';
-import "./AdminManageItems.css";
-
+import './AdminManageItems.css';
+import { toast } from 'react-toastify'; 
 function AdminManageItems() {
+  // ... (estados iguais) ...
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // Esse 'error' é para falha no carregamento inicial
 
-  // Estados para o Formulário
   const [editItemId, setEditItemId] = useState(null); 
   const [description, setDescription] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null); 
+  const [preview, setPreview] = useState(null); 
 
-  // (Função fetchData - sem mudanças)
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -31,143 +31,142 @@ function AdminManageItems() {
         setCategoryId(categoriesResponse.data[0].id);
       }
     } catch (err) {
-      setError('Erro ao carregar dados.');
+      toast.error('Erro ao carregar dados do servidor.'); // <-- TOAST
     } finally {
       setLoading(false);
     }
   };
+  
+  useEffect(() => { fetchData(); }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // (Função handleDelete - sem mudanças)
   const handleDelete = async (itemId) => {
+    // O window.confirm NATIVO ainda é útil para confirmação crítica, pode manter ou criar um modal customizado.
+    // Vamos manter por simplicidade, mas usar toast no resultado.
     if (window.confirm('Tem certeza que deseja deletar este item?')) {
       try {
         await api.delete(`/items/${itemId}`);
         setItems(prevItems => prevItems.filter(item => item.id !== itemId));
+        toast.success('Item deletado com sucesso.'); // <-- TOAST
       } catch (err) {
-        alert('Erro ao deletar o item.');
-      }
-    }
-  };
-  
-  // (Função handleSubmit - sem mudanças na lógica)
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!description || !unitPrice || !categoryId) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
-    const itemData = {
-      description,
-      unitPrice: parseFloat(unitPrice),
-      categoryId: categoryId 
-    };
-    try {
-      if (editItemId) {
-        const response = await api.put(`/items/${editItemId}`, itemData);
-        setItems(prevItems => 
-          prevItems.map(item => item.id === editItemId ? response.data : item)
-        );
-        alert('Item atualizado com sucesso!');
-      } else {
-        const response = await api.post('/items', itemData);
-        setItems(prevItems => [...prevItems, response.data]);
-        alert('Item criado com sucesso!');
-      }
-      setEditItemId(null);
-      setDescription('');
-      setUnitPrice('');
-      setCategoryId(categories.length > 0 ? categories[0].id : '');
-    } catch (err) {
-      console.error("ERRO DETALHADO:", err);
-      if (err.response && err.response.data && err.response.data.error) {
-        alert('Erro do Backend: ' + err.response.data.error);
-      } else {
-        alert('Erro ao salvar o item. Verifique o console (F12).');
+        toast.error('Erro ao deletar o item.'); // <-- TOAST
       }
     }
   };
 
-  // (Função startEdit - sem mudanças)
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+      setPreview(URL.createObjectURL(file)); 
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!description || !unitPrice || !categoryId) {
+      toast.warn('Preencha descrição, preço e categoria.'); // <-- TOAST
+      return;
+    }
+
+    const data = new FormData();
+    data.append('description', description);
+    data.append('unitPrice', unitPrice);
+    data.append('categoryId', categoryId);
+    if (selectedImage) {
+      data.append('image', selectedImage); 
+    }
+
+    try {
+      let response;
+      if (editItemId) {
+        response = await api.put(`/items/${editItemId}`, data); 
+        setItems(prev => prev.map(i => i.id === editItemId ? response.data : i));
+        toast.success('Item atualizado com sucesso!'); // <-- TOAST
+      } else {
+        response = await api.post('/items', data);
+        setItems(prev => [...prev, response.data]);
+        toast.success('Item criado com sucesso!'); // <-- TOAST
+      }
+      
+      setEditItemId(null);
+      setDescription('');
+      setUnitPrice('');
+      setSelectedImage(null);
+      setPreview(null);
+      document.getElementById('fileInput').value = ''; 
+      
+    } catch (err) {
+      console.error("Erro:", err);
+      const errorMsg = err.response?.data?.error || 'Erro ao salvar.';
+      toast.error(errorMsg); // <-- TOAST
+    }
+  };
+
   const startEdit = (item) => {
     setEditItemId(item.id);
     setDescription(item.description);
     setUnitPrice(item.unitPrice);
     setCategoryId(item.categoryId);
-    window.scrollTo(0, 0); 
+    setPreview(item.image ? `http://localhost:3000/uploads/${item.image}` : null);
+    setSelectedImage(null); 
+    window.scrollTo(0, 0);
   };
 
   if (loading) return <h2>Carregando...</h2>;
-  if (error) return <h2 style={{ color: 'red' }}>{error}</h2>;
 
-  // --- 2. ATUALIZE O JSX COM AS CLASSES ---
+  // ... (O return do JSX continua igual, apenas certifique-se de que não há <p>{error}</p> soltos) ...
   return (
     <div>
-      {/* --- Formulário de Criação/Edição (Usa Form.css) --- */}
       <div className="form-container">
+        {/* ... (seu formulário igual) ... */}
         <form onSubmit={handleSubmit}>
-          {/* O título muda se estiver editando ou criando */}
-          <h2 className="form-title">
-            {editItemId ? 'Editar Item' : 'Criar Novo Item'}
-          </h2>
-          
-          <div className="form-group">
-            <label className="form-label">Descrição:</label>
-            <input 
-              type="text" 
-              value={description} 
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Preço (ex: 10.50):</label>
-            <input 
-              type="number" 
-              step="0.01"
-              value={unitPrice} 
-              onChange={(e) => setUnitPrice(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Categoria:</label>
-            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-              {categories.length === 0 && <option>Carregando...</option>}
-              {categories.map(cat => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.description}
-                </option>
-              ))}
-            </select>
-          </div>
-          
-          <button type="submit" style={{ width: '100%' }}>
-            {editItemId ? 'Atualizar Item' : 'Salvar Novo Item'}
-          </button>
-          {editItemId && (
-            <button type="button" onClick={() => setEditItemId(null)} style={{ width: '100%', marginTop: '10px', backgroundColor: '#777' }}>
-              Cancelar Edição
-            </button>
-          )}
+            <h2 className="form-title">{editItemId ? 'Editar' : 'Novo'} Item</h2>
+            {/* ... inputs ... */}
+            <div className="form-group">
+                <label className="form-label">Foto do Item:</label>
+                <input type="file" id="fileInput" onChange={handleFileChange} accept="image/*" />
+                {preview && <img src={preview} alt="Preview" className="image-preview-form" />}
+            </div>
+            <div className="form-group">
+                <label className="form-label">Descrição:</label>
+                <input type="text" value={description} onChange={e => setDescription(e.target.value)} />
+            </div>
+            <div className="form-group">
+                <label className="form-label">Preço:</label>
+                <input type="number" step="0.01" value={unitPrice} onChange={e => setUnitPrice(e.target.value)} />
+            </div>
+            <div className="form-group">
+                <label className="form-label">Categoria:</label>
+                <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
+                {categories.map(c => <option key={c.id} value={c.id}>{c.description}</option>)}
+                </select>
+            </div>
+            <button type="submit" style={{ width: '100%' }}>Salvar</button>
+            {editItemId && <button type="button" onClick={() => {
+                setEditItemId(null); setPreview(null); setDescription(''); setUnitPrice('');
+            }} style={{ width: '100%', marginTop: '10px', background: '#777' }}>Cancelar</button>}
         </form>
       </div>
 
-      {/* --- Lista de Itens Existentes (Usa AdminManageItems.css) --- */}
       <div className="item-list-container">
         <h3 className="item-list-title">Itens Atuais</h3>
         {items.map(item => (
           <div key={item.id} className="admin-item-card">
+            {item.image && (
+              <img 
+                src={`http://localhost:3000/uploads/${item.image}`} 
+                alt={item.description} 
+                className="admin-item-thumb"
+              />
+            )}
             <div className="admin-item-info">
               <h4>{item.description}</h4>
-              <small>R$ {item.unitPrice.toFixed(2)} (Cat: {item.category.description})</small>
+              <small>R$ {item.unitPrice.toFixed(2)}</small>
             </div>
             <div className="admin-item-actions">
               <button onClick={() => startEdit(item)}>Editar</button>
-              <button onClick={() => handleDelete(item.id)} className="delete-btn">
-                Deletar
-              </button>
+              <button onClick={() => handleDelete(item.id)} className="delete-btn">X</button>
             </div>
           </div>
         ))}

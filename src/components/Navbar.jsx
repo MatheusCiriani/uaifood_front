@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import './Navbar.css';
-// 1. IMPORTA APENAS O ÍCONE
 import logoIconUrl from '../assets/uaifood_icon.svg'; 
 
 function Navbar() {
@@ -17,16 +16,13 @@ function Navbar() {
   };
 
   return (
-    // 2. O NAVBAR VOLTA A TER APENAS 2 SEÇÕES FILHAS
     <nav className="navbar">
       
-      {/* --- SEÇÃO 1: LINKS DA ESQUERDA --- */}
+      {/* --- ESQUERDA --- */}
       <div className="navbar-links-left">
-        {/* O Ícone é o primeiro link */}
         <Link to="/" className="navbar-icon-link">
           <img src={logoIconUrl} alt="UaiFood Icon" className="navbar-icon-brand" />
         </Link>
-        
         <Link to="/cardapio">Cardápio</Link> 
         
         {isAuthenticated && user.type === 'CLIENT' && (
@@ -40,7 +36,7 @@ function Navbar() {
         )}
       </div>
 
-      {/* --- SEÇÃO 2: LINKS DA DIREITA --- */}
+      {/* --- DIREITA --- */}
       <div className="navbar-links-right">
         {user?.type !== 'ADMIN' && (
           <Link to="/carrinho">
@@ -50,7 +46,13 @@ function Navbar() {
         
         {isAuthenticated ? (
           <>
-            <span>Olá, {user?.name}</span>
+            <span className="notranslate">Olá, {user?.name}</span>
+            
+            {/* NOVO BOTÃO MEU PERFIL */}
+            <Link to="/perfil" style={{ fontWeight: 'bold' }}>
+              Meu Perfil
+            </Link>
+
             <button onClick={handleLogout}>Sair</button>
           </>
         ) : (

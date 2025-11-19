@@ -1,28 +1,19 @@
 /* src/pages/Cardapio.css */
 
 .cardapio-container {
-  /* --- MUDANÇAS AQUI --- */
-  /* Remove o max-width para que ele possa se expandir */
-  /* padding no topo será 0 para o banner encostar no navbar */
-  padding: 0 1.5rem 1.5rem 1.5rem; 
-  /* max-width: 1200px;  <-- REMOVIDO */
-  margin: 0 auto; /* Mantém centralizado quando o conteúdo interno é menor que a tela */
-  /* --- FIM DAS MUDANÇAS --- */
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin: 0 auto; 
 }
 
 /* --- ESTILOS DO BANNER DE DESTAQUE --- */
 .featured-section {
-  /* --- MUDANÇAS AQUI --- */
-  /* Para "quebrar" o padding do container pai e ocupar a largura total */
   margin-left: -1.5rem;
   margin-right: -1.5rem;
-  padding-left: 1.5rem; /* Adiciona o padding interno para o conteúdo do banner */
+  padding-left: 1.5rem; 
   padding-right: 1.5rem;
-  /* --- FIM DAS MUDANÇAS --- */
-
   background-color: var(--color-primary-dark); 
   color: var(--color-text-light); 
-  padding-top: 1.5rem; /* Manteve padding-top e bottom */
+  padding-top: 1.5rem; 
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -43,32 +34,21 @@
   scrollbar-width: thin; 
 }
 
-/* Scrollbars */
-.featured-list::-webkit-scrollbar {
-  height: 8px;
-}
-.featured-list::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary-dark);
-  border-radius: 10px;
-}
-.featured-list::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.1);
-  border-radius: 10px;
-}
-/* --- FIM DOS ESTILOS DO BANNER --- */
+.featured-list::-webkit-scrollbar { height: 8px; }
+.featured-list::-webkit-scrollbar-thumb { background-color: var(--color-accent); border-radius: 10px; }
+.featured-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
 
 
-/* --- MUDANÇAS AQUI --- */
-/* Estilo para os títulos gerais (Categorias, Itens Disponíveis) */
+/* --- TÍTULOS --- */
 .cardapio-container h3 {
   border-bottom: 2px solid var(--color-accent);
   padding-bottom: 5px;
   margin-bottom: 1rem;
-  padding-left: 0; /* Garante que o h3 não tenha padding extra, alinhando com o container */
+  padding-left: 0; 
 }
-/* --- FIM DAS MUDANÇAS --- */
 
 
+/* --- CATEGORIAS --- */
 .category-list {
   list-style: none;
   display: flex;
@@ -101,27 +81,50 @@
   border-color: var(--color-primary-dark);
 }
 
+/* --- LISTA DE ITENS --- */
 .item-list {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  /* --- MUDANÇAS AQUI --- */
-  /* Remove justify-content: center para alinhamento natural */
   justify-content: flex-start; 
-  /* --- FIM DAS MUDANÇAS --- */
 }
 
+/* --- CARD DO ITEM (AJUSTADO PARA IMAGEM) --- */
 .item-card {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 1rem;
-  width: 240px; /* Tamanho base do card */
+  width: 240px; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   text-align: left;
   display: flex;
   flex-direction: column;
   flex-shrink: 0; 
+  overflow: hidden; 
+  padding-bottom: 1rem; 
+}
+
+/* Imagem do Card (tanto na lista principal quanto nos destaques) */
+.item-card-image {
+  width: 100%;
+  height: 150px; /* Altura fixa para todos os cards */
+  object-fit: cover; /* --- AQUI: MANTÉM PROPORÇÃO E COBRE A ÁREA --- */
+  object-position: center; /* Centraliza a imagem no espaço */
+  border-bottom: 1px solid #eee;
+}
+
+.item-card-image.placeholder {
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.item-card-content {
+  padding: 1rem 1rem 0 1rem;
+  flex-grow: 1; 
 }
 
 .item-card h4 {
@@ -143,43 +146,37 @@
 }
 
 .item-card button {
-  width: 100%;
-  margin-top: auto;
+  width: calc(100% - 2rem); 
+  margin: 1rem auto 0 auto; 
 }
 
-/* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
-/* Em telas menores, ajuste o tamanho do card */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
   .cardapio-container {
-    padding: 0 1rem 1rem 1rem; /* Menos padding nas laterais */
+    padding: 0 1rem 1rem 1rem; 
   }
-
   .featured-section {
-    margin-left: -1rem; /* Ajusta margem negativa para o novo padding */
+    margin-left: -1rem; 
     margin-right: -1rem;
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
   .item-card {
-    width: calc(50% - 0.75rem); /* Dois cards por linha com gap de 1.5rem */
+    width: calc(50% - 0.75rem); 
   }
-  
   .featured-list .item-card {
-    width: 200px; /* Mantém um tamanho fixo para o scroll horizontal nos destaques */
+    width: 200px; 
   }
 }
 
 @media (max-width: 480px) {
   .featured-title-logo {
-    width: 220px; /* Logo menor em telas muito pequenas */
+    width: 220px; 
   }
-  
   .item-card {
-    width: 100%; /* Um card por linha em telas muito pequenas */
+    width: 100%; 
   }
-  
   .featured-list .item-card {
-    width: 180px; /* Ainda menor para scroll horizontal em mobile */
+    width: 180px; 
   }
 }

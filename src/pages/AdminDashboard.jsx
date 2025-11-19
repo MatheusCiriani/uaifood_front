@@ -18,6 +18,10 @@ function AdminDashboard() {
         <Link to="/admin/itens" className="dashboard-card">
           Gerenciar Itens
         </Link>
+
+        <Link to="/admin/categorias" className="dashboard-card">
+          Gerenciar Categorias
+        </Link>
         
         {/* Você pode adicionar mais "ferramentas" aqui facilmente */}
         {/* <Link to="/admin/categorias" className="dashboard-card">

@@ -6,7 +6,7 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   
-  // O "Lazy Initial State" que lê o localStorage (está correto)
+  // Lazy Initial State (Lê do localStorage)
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('@UaiFood:user');
     if (storedUser) {
@@ -17,7 +17,6 @@ function AuthProvider({ children }) {
 
   const [token, setToken] = useState(() => {
     const storedToken = localStorage.getItem('@UaiFood:token');
-    
     if (storedToken) {
       api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
       return storedToken;
@@ -42,14 +41,11 @@ function AuthProvider({ children }) {
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
-      // --- MUDANÇA AQUI ---
-      // Retorna o objeto 'user' em vez de 'true'
       return user; 
-      // --- FIM DA MUDANÇA ---
 
     } catch (error) {
-      console.error('Erro no login:', error.response?.data?.error); 
-      return false; // Retorna 'false' em caso de falha
+      console.error('Erro no login:', error.response?.data?.error);
+      return false;
     }
   }
 
@@ -62,13 +58,25 @@ function AuthProvider({ children }) {
 
     delete api.defaults.headers.common['Authorization'];
   }
-  
+
+  // --- NOVA FUNÇÃO: Atualiza os dados do usuário localmente ---
+  function updateUserLocal(newData) {
+    setUser((prevUser) => {
+      // Mescla os dados antigos com os novos
+      const updatedUser = { ...prevUser, ...newData };
+      // Salva no localStorage para persistir no F5
+      localStorage.setItem('@UaiFood:user', JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  }
+
   return (
     <AuthContext.Provider value={{ 
         user, 
         token, 
         login, 
         logout,
+        updateUserLocal, // <--- Exportando a nova função
         isAuthenticated: !!user 
     }}>
       {children}
@@ -78,11 +86,9 @@ function AuthProvider({ children }) {
 
 function useAuth() {
   const context = useContext(AuthContext);
-
   if (!context) {
     throw new Error('useAuth deve ser usado dentro de um AuthProvider');
   }
-
   return context;
 }
 

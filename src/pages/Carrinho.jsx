@@ -4,7 +4,10 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api'; 
 import { useState } from 'react'; 
-import './Carrinho.css'; // <-- 1. IMPORTE O NOVO CSS
+import './Carrinho.css'; 
+
+// 1. IMPORTE O TOAST
+import { toast } from 'react-toastify';
 
 function Carrinho() {
   const { cartItems, addToCart, removeFromCart, totalItemsInCart, clearCart } = useCart();
@@ -12,52 +15,70 @@ function Carrinho() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  // Não precisamos mais do estado 'error' visual, o toast resolve
+  const [paymentMethod, setPaymentMethod] = useState(''); 
 
-  // (totalPrice - sem mudança)
+  const paymentOptions = [
+    { id: 'PIX', label: 'Pix' },
+    { id: 'CREDIT', label: 'Crédito' },
+    { id: 'DEBIT', label: 'Débito' },
+    { id: 'CASH', label: 'Dinheiro' },
+  ];
+
   const totalPrice = cartItems.reduce((total, item) => {
     return total + (item.unitPrice * item.quantity);
   }, 0);
 
-  // (handleCheckout - sem mudança)
   const handleCheckout = async () => {
-    setError(''); 
+    
     if (!isAuthenticated) {
+      // 2. MENSAGEM INFORMATIVA
+      toast.info("Faça login para finalizar seu pedido.");
       navigate('/login', { replace: true, state: { from: '/carrinho' } });
       return; 
     }
+
+    if (!paymentMethod) {
+      // 3. AVISO (Warning)
+      toast.warn("Por favor, selecione uma forma de pagamento.");
+      return;
+    }
+
     const itemsForBackend = cartItems.map(item => ({
       itemId: item.id,
       quantity: item.quantity
     }));
+
     const orderData = {
-      paymentMethod: 'PIX',
+      paymentMethod: paymentMethod,
       status: 'PENDING',
       clientId: user.id,
       createdById: user.id,
       items: itemsForBackend,
     };
+
     try {
       setLoading(true);
       await api.post('/orders', orderData);
       setLoading(false);
-      alert('Pedido realizado com sucesso!');
+      
+      // 4. SUCESSO
+      toast.success("Pedido realizado com sucesso! 🚀");
+      
       clearCart(); 
       navigate('/meus-pedidos'); 
     } catch (err) {
       setLoading(false);
-      if (err.response && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError('Erro ao finalizar o pedido. Tente novamente.');
-      }
+      // 5. ERRO (Pega a mensagem do Zod/Backend se existir)
+      const errorMsg = err.response?.data?.error || "Erro ao finalizar pedido.";
+      toast.error(errorMsg);
       console.error(err);
     }
   };
 
-  // --- 2. APLIQUE AS CLASSES CSS ---
   return (
     <div className="cart-container">
+      <h2 className="cart-title">Seu Carrinho de Compras</h2>
       
       {cartItems.length === 0 ? (
         <div className="cart-empty">
@@ -66,7 +87,6 @@ function Carrinho() {
         </div>
       ) : (
         <div>
-          {/* Lista de Itens */}
           {cartItems.map(item => (
             <div key={item.id} className="cart-item-card">
               <div className="cart-item-info">
@@ -74,8 +94,6 @@ function Carrinho() {
                 <p>Preço Un.: R$ {item.unitPrice.toFixed(2)}</p>
                 <p><strong>Total: R$ {(item.unitPrice * item.quantity).toFixed(2)}</strong></p>
               </div>
-              
-              {/* Controles de Quantidade */}
               <div className="cart-item-quantity">
                 <button onClick={() => removeFromCart(item.id)} disabled={loading}>-</button>
                 <span>{item.quantity}</span>
@@ -84,7 +102,21 @@ function Carrinho() {
             </div>
           ))}
 
-          {/* Resumo e Total */}
+          <div className="payment-section">
+            <h3>Forma de Pagamento</h3>
+            <div className="payment-options">
+              {paymentOptions.map(option => (
+                <div
+                  key={option.id}
+                  className={`payment-card ${paymentMethod === option.id ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod(option.id)}
+                >
+                  {option.label}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="cart-summary">
             <h3>Resumo do Pedido</h3>
             <p>Total de Itens: {totalItemsInCart}</p>
@@ -98,9 +130,6 @@ function Carrinho() {
               {loading ? 'Enviando...' : 'Finalizar Pedido'}
             </button>
           </div>
-
-          {/* Mostra erros da API */}
-          {error && <p className="cart-error">{error}</p>}
         </div>
       )}
     </div>

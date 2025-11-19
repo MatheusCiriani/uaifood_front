@@ -2,14 +2,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import '../styles/Form.css'; // <-- 1. IMPORTE O NOVO CSS
+import '../styles/Form.css';
+import logoUrl from '../assets/uaifood_lg.svg';
+import { toast } from 'react-toastify'; // <-- 1. IMPORTE
 
 function Register() {
   const navigate = useNavigate();
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-
-  // Estados (sem mudança)
+  // Removemos os estados visuais 'error' e 'success' pois o toast cuida disso
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -23,11 +23,10 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
 
     if (!name || !email || !password || !street || !number || !city) {
-      setError('Por favor, preencha todos os campos obrigatórios.');
+      // 2. AVISO
+      toast.warn('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
@@ -38,26 +37,29 @@ function Register() {
 
     try {
       await api.post('/users', dataToSend);
-      setSuccess('Cadastro realizado com sucesso! Redirecionando para o login...');
+      
+      // 3. SUCESSO
+      toast.success('Cadastro realizado! Faça login para continuar.');
+      
+      // Redireciona um pouco mais rápido agora
       setTimeout(() => {
         navigate('/login');
-      }, 2000);
+      }, 1500);
 
     } catch (err) {
-      if (err.response && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError('Erro ao realizar o cadastro. Tente novamente.');
-      }
+      // 4. ERRO
+      const errorMsg = err.response?.data?.error || 'Erro ao realizar cadastro.';
+      toast.error(errorMsg);
     }
   };
 
-  // 2. ADICIONE AS 'classNames'
   return (
     <div className="form-container">
+      <img src={logoUrl} className="form-logo" alt="UaiFood Logo" />
+
       <form onSubmit={handleSubmit}>
-        
         <h3 className="form-subtitle">Seus Dados</h3>
+        {/* ... (inputs de nome, email, telefone, senha - SEM MUDANÇA) ... */}
         <div className="form-group">
           <label className="form-label">Nome Completo:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -76,6 +78,7 @@ function Register() {
         </div>
 
         <h3 className="form-subtitle">Endereço de Entrega</h3>
+        {/* ... (inputs de endereço - SEM MUDANÇA) ... */}
         <div className="form-group">
           <label className="form-label">Rua:</label>
           <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} />
@@ -101,8 +104,7 @@ function Register() {
           <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
         </div>
         
-        {error && <p className="form-error">{error}</p>}
-        {success && <p className="form-success">{success}</p>}
+        {/* Removemos as tags <p> de erro/sucesso aqui embaixo */}
         
         <button type="submit" style={{ width: '100%', marginTop: '1rem' }}>
           Cadastrar
